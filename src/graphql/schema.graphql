@@ -1,0 +1,355 @@
+type File {
+	id: String!
+	secret: String!
+}
+
+type Customer {
+	id: String!
+	# createdAt: AWSDateTime!
+	name: String
+	surname: String
+	phone: String
+	email: String
+	address: String
+	# locale: Locale
+	picture: File
+}
+
+input CustomerWhereUniqueInput {
+ 	id: String
+}
+
+query getCustomer($where: CustomerWhereUniqueInput!) {
+	getCustomer(where: $where) {
+		id
+		# createdAt
+		name
+		surname
+		phone
+		email
+		address
+		# locale
+		picture {
+			id
+			secret
+		}
+	}
+}
+
+type Address {
+	street: String
+	city: String
+	zip: String
+}
+
+type Shop {
+	id: String!
+	name: String!
+	address: Address
+	email: String
+	phone: String
+}
+
+type Subject {
+	id: String!
+	name: String
+	marketingName: String
+	alias: String!
+	# address: Address
+	# microsite: Microsite
+	# customersLastChange: AWSDateTime
+	# locale: Locale
+	# currency: Currency
+	dic: String
+	ico: String
+	vatPayer: Boolean
+}
+
+type Item {
+	id: String!
+	color: String!
+	code: String
+	stockEnabled: Boolean
+	warranty: String
+	manufacturer: String
+	duration: Int
+	pauseAfter: Int
+	pauseBefore: Int
+	name: String!
+	note: String
+	ord: Int
+	price: Float
+	priceVat: Float
+	picture: File
+}
+
+type Cart {
+	id: String!
+	count: Int
+	item: Item
+	name: String!
+	price: Float
+	priceVat: Float!
+	vat: Float!
+}
+
+type Calendar {
+	id: String!
+	capacity: Int
+	# eventType: EventType!
+	carts: [Cart!]
+	# createdAt: AWSDateTime!
+	# employees: [Employee!]
+	# from: AWSDateTime
+	note: String
+	shop: Shop
+	subject: Subject
+	state: CalendarState!
+	# to: AWSDateTime
+	# updatedAt: AWSDateTime!
+	isOnlineReservation: Boolean
+	# canBeCancelUntil: AWSDateTime
+}
+
+input CalendarOrderByInput {
+	id: OrderByArg
+	billNumber: OrderByArg
+	capacity: OrderByArg
+	createdAt: OrderByArg
+	from: OrderByArg
+	note: OrderByArg
+	paidAt: OrderByArg
+	payType: OrderByArg
+	eventType: OrderByArg
+	state: OrderByArg
+	to: OrderByArg
+	updatedAt: OrderByArg
+}
+
+enum OrderByArg {
+	ASC
+	DESC
+}
+
+enum CalendarState {
+	Open
+	Paid
+	Canceled
+	Storno
+	Test
+}
+
+query listCalendars($where: CalendarWhereInput, $orderBy: CalendarOrderByInput) {
+	listCalendars(where: $where, orderBy: $orderBy) {
+		id
+		# capacity
+		# eventType: EventType!
+		# carts {
+		# 	id
+		# 	count
+		# 	item {
+		# 		id
+		# 		color
+		# 		code
+		# 		stockEnabled
+		# 		warranty
+		# 		manufacturer
+		# 		duration
+		# 		pauseAfter
+		# 		pauseBefore
+		# 		name
+		# 		note
+		# 		ord
+		# 		price
+		# 		priceVat
+		# 		picture {
+		# 			id
+		# 			secret
+		# 		}
+		# 	}
+		# 	name
+		# 	price
+		# 	priceVat
+		# 	vat
+		# }
+		# createdAt: AWSDateTime!
+		# employees: [Employee!]
+		# from: AWSDateTime
+		# note
+		shop {
+			id
+			name
+			address {
+				street
+				city
+				zip
+			}
+			email
+			phone
+		}
+		subject {
+			id
+			# name
+			# marketingName
+			alias
+			# address: Address
+			# microsite: Microsite
+			# customersLastChange: AWSDateTime
+			# locale: Locale
+			# currency: Currency
+			# dic
+			# ico
+			# vatPayer
+		}
+		state
+		# to: AWSDateTime
+		# updatedAt: AWSDateTime!
+		# isOnlineReservation
+		# canBeCancelUntil: AWSDateTime
+	}
+}
+
+input StringFilter {
+	contains: String
+	endsWith: String
+	equals: String
+	in: [String!]
+	not: StringFilter
+	notIn: [String!]
+	startsWith: String
+	mode: String
+}
+
+input CalendarWhereInput {
+	id: StringFilter
+# 	capacity: IntNullableFilter
+# 	customers: CustomerFilter
+# 	employees: EmployeeFilter
+	state: CalendarStateEnumFilter
+# 	carts: CartFilter
+# 	from: AWSDateTimeNullableFilter
+# 	to: AWSDateTimeNullableFilter
+# 	eventType: EventTypeEnumFilter
+}
+
+# type CustomerFilter {
+# 	some: CustomerWhereInputWithoutNullables
+# 	every: CustomerWhereInputWithoutNullables
+# 	none: CustomerWhereInputWithoutNullables
+# }
+
+# type CustomerWhereInputWithoutNullables {
+# 	id: StringFilter
+# 	createdAt: AWSDateTimeFilter
+# 	star: BooleanNullableFilter
+# 	updatedAt: AWSDateTimeFilter
+# 	warning: BooleanNullableFilter
+# 	name: StringNullableFilter
+# 	surname: StringNullableFilter
+# 	phone: StringNullableFilter
+# 	email: StringNullableFilter
+# }
+
+# type EmployeeFilter {
+# 	some: EmployeeWhereInputWithoutNullables
+# 	every: EmployeeWhereInputWithoutNullables
+# 	none: EmployeeWhereInputWithoutNullables
+# }
+
+# type EmployeeWhereInputWithoutNullables {
+# 	id: StringFilter
+# 	color: StringNullableFilter
+# 	createdAt: AWSDateTimeFilter
+# 	bookEnabled: BooleanFilter
+# 	showCstContact: BooleanFilter
+# 	notifyPhone: StringNullableFilter
+# 	ord: IntNullableFilter
+# 	receiptName: StringNullableFilter
+# }
+
+# type CartFilter {
+# 	some: CartWhereInputWithoutNullables
+# 	every: CartWhereInputWithoutNullables
+# 	none: CartWhereInputWithoutNullables
+# }
+
+# type CartWhereInputWithoutNullables {
+# 	id: StringFilter
+# 	count: IntNullableFilter
+# 	createdAt: AWSDateTimeFilter
+# 	name: StringFilter
+# 	priceVat: FloatFilter
+# 	updatedAt: AWSDateTimeFilter
+# 	vat: FloatFilter
+# 	price: FloatNullableFilter
+# }
+
+# type StringFilter {
+# 	contains: String
+# 	endsWith: String
+# 	equals: String
+# 	in: [String!]
+# 	not: StringFilter
+# 	notIn: [String!]
+# 	startsWith: String
+# 	mode: String
+# }
+
+# type AWSDateTimeFilter {
+# 	equals: AWSDateTime
+# 	gt: AWSDateTime
+# 	gte: AWSDateTime
+# 	in: [AWSDateTime!]
+# 	lt: AWSDateTime
+# 	lte: AWSDateTime
+# 	not: AWSDateTimeFilter
+# 	notIn: [AWSDateTime!]
+# }
+
+# type BooleanFilter {
+# 	equals: Boolean
+# 	not: BooleanFilter
+# }
+
+# type IntNullableFilter {
+# 	equals: Int
+# 	gt: Int
+# 	gte: Int
+# 	in: [Int!]
+# 	lt: Int
+# 	lte: Int
+# 	not: IntFilter
+# 	notIn: [Int!]
+# 	isNull: Boolean
+# }
+
+# type FloatFilter {
+# 	equals: Float
+# 	gt: Float
+# 	gte: Float
+# 	in: [Float!]
+# 	lt: Float
+# 	lte: Float
+# 	not: FloatFilter
+# 	notIn: [Float!]
+# 	isNull: Boolean
+# }
+
+input CalendarStateEnumFilter {
+	equals: CalendarState
+	in: [CalendarState!]
+	not: CalendarStateEnumFilter
+	notIn: [CalendarState!]
+}
+
+# type EventTypeEnumFilter {
+# 	equals: EventType
+# 	in: [EventType!]
+# 	not: EventTypeEnumFilter
+# 	notIn: [EventType!]
+# }
+
+type Query {
+	getCustomer(where: CustomerWhereUniqueInput!): Customer
+	listCalendars(where: CalendarWhereInput, orderBy: CalendarOrderByInput): [Calendar]!
+}
