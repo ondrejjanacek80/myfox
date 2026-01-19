@@ -1,4 +1,4 @@
-schema: src/graphql/schema.graphql
+schema: ${REACT_APP_GRAPHQL_URL}
 documents: src/graphql/**/*.graphql
 
 generates:
@@ -10,4 +10,3 @@ generates:
     config:
       withHooks: true
       reactApolloVersion: 3
-

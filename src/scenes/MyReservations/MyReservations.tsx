@@ -21,10 +21,10 @@ const MyReservations = () => {
 
   const filteredCalendarItems: Calendar[] = useMemo(
     () =>
-      (data?.listCalendars
-        ?.filter((c: Calendar | null | undefined) => !!c)
+      ((data?.listCalendars || [])
+        ?.filter((c) => !!c)
         .filter((_, index: number) => index < 20) as Calendar[]) || [],
-    [data]
+    [data],
   );
 
   if (loading) {
